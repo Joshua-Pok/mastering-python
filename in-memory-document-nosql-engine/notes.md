@@ -101,8 +101,44 @@ Assume python dicts are thread unsafe by deafult
  we need to add a lock with threading.lock()
 
 
+# __iter__
+
+__iter__ is called when we do a for in loop
+
+
 
 # Yield keyword 
+
+normally a function runs until it hits a return staement
+
+yield hands you the next item and pauses exactly where it is, keeping all local variables alive
+
+
+```Python
+
+def __iter(self):
+    for toy_name in self.storage.values():
+        yield toy_name
+
+
+for item in box:
+    print(item)
+```
+
+
+Every time it is called it hands you the next value
+
+
+# all function
+
+all takes an iterable and returns true only if every single item inside is true
+if even one value is false it immediately stops checking and returns false **short circuiting**
+
+
+
+
+
+
 
 
 

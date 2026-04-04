@@ -1,3 +1,6 @@
+from typing import Dict
+
+
 class Collection():
 
     def __init__(self):
@@ -23,5 +26,19 @@ class Collection():
             return False
 
         return True
+
+
+    def __iter__(self):
+        for doc in self._documents.values():
+            yield doc
+
+
+    def find(self, query:Dict):
+
+        for doc in self._documents.values():
+            is_match = all(doc.data.get(key) == value for key, value in query.items())
+            if is_match:
+                yield(doc)
+
 
 
