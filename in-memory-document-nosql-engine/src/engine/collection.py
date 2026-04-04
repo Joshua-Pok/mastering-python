@@ -36,9 +36,27 @@ class Collection():
     def find(self, query:Dict):
 
         for doc in self._documents.values():
-            is_match = all(doc.data.get(key) == value for key, value in query.items())
+            is_match = all(self._resolve_path(doc.data, key) == value for key, value in query.items())
             if is_match:
                 yield(doc)
+
+
+    def _resolve_path(self, data, path_string):
+
+        if not isinstance(data, dict):
+            return None
+
+        parts = path_string.split(".", 1)
+
+        if len(parts) == 1:
+            return data.get(parts[0])
+
+        current_key = parts[0] #take only the first one to check
+
+        if current_key in data:
+            return self._resolve_path(data.get(current_key), parts[1]) # bubbles up the final value
+
+
 
 
 

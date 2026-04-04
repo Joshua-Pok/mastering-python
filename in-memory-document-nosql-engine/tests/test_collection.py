@@ -68,3 +68,24 @@ def test_find_function():
     assert len(results) == 2
 
 
+def test_query_nested_dot_notation():
+
+    collection = Collection()
+    doc1 = Document("1", {"user": {"profile" : {"theme": "dark"}}})
+    doc2 = Document("2", {"user": {"profile": {"theme": "light"}}})
+    doc3 = Document("3", {"name": "Alice"})
+
+    collection["1"] = doc1
+    collection["2"] = doc2
+    collection["3"] = doc3
+
+
+    results = list(collection.find({"user.profile.theme": "dark"}))
+    assert len(results) == 1
+    results = list(collection.find({"user.profile.theme": "light"}))
+    assert results[0] == doc2
+    results = list(collection.find({"user.profile.something_else": "dark"}))
+    assert len(results) == 0
+
+
+
